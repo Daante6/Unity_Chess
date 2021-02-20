@@ -319,33 +319,100 @@ public class BoardManager : MonoBehaviour
 		CastleWhiteRight = new int[2] { -1, -1 };
 		CastleBlackRight = new int[2] { -1, -1 };
 		CastleBlackLeft = new int[2] { -1, -1 };
-		
-		//white team
-		for(int i=0;i<8;i++)
-		{
-			SpawnChessman(0,i,1);
-		}
-		SpawnChessman(1,0,0);   //WHO, X, Y
-		SpawnChessman(1,7,0);
-		SpawnChessman(2,1,0);
-		SpawnChessman(2,6,0);
-		SpawnChessman(3,2,0);
-		SpawnChessman(3,5,0);
-		SpawnChessman(4,3,0); //queenW
-		SpawnChessman(5,4,0); //kingW
+
+        //white team
+        switch (StaticNameController.fractionWhite)
+        {
+			case 0:
+				for (int i = 0; i < 8; i++)
+				{
+					SpawnChessman(0, i, 1);
+				}
+				SpawnChessman(1, 0, 0);   //WHO, X, Y
+				SpawnChessman(1, 7, 0);
+				SpawnChessman(2, 1, 0);
+				SpawnChessman(2, 6, 0);
+				SpawnChessman(3, 2, 0);
+				SpawnChessman(3, 5, 0);
+				SpawnChessman(4, 3, 0); //queenW
+				SpawnChessman(5, 4, 0); //kingW
+				
+				break;
+			case 1:
+				for (int i = 0; i < 8; i++)
+				{
+					SpawnChessman(0, i, 1);
+				}
+				SpawnChessman(1, 0, 0);   //WHO, X, Y
+				SpawnChessman(1, 7, 0);
+				SpawnChessman(3, 1, 0);
+				SpawnChessman(3, 6, 0);
+				SpawnChessman(2, 2, 0);
+				SpawnChessman(2, 5, 0);
+				SpawnChessman(4, 3, 0); //queenW
+				SpawnChessman(5, 4, 0); //kingW
+				break;
+			case 2:
+				for (int i = 0; i < 8; i++)
+				{
+					SpawnChessman(0, i, 1);
+				}
+				SpawnChessman(1, 0, 0);   //WHO, X, Y
+				SpawnChessman(1, 7, 0);
+				SpawnChessman(2, 1, 0);
+				SpawnChessman(2, 6, 0);
+				SpawnChessman(3, 2, 0);
+				SpawnChessman(3, 5, 0);
+				SpawnChessman(4, 3, 0); //queenW
+				SpawnChessman(5, 4, 0); //kingW
+				break;
+        }
 		//black team
-		for(int i=0;i<8;i++)
-		{
-			SpawnChessman(6,i,6);
-		}
-		SpawnChessman(7,0,7);
-		SpawnChessman(7,7,7);
-		SpawnChessman(8,1,7);
-		SpawnChessman(8,6,7);
-		SpawnChessman(9,2,7);
-		SpawnChessman(9,5,7);
-		SpawnChessman(10,3,7);
-		SpawnChessman(11,4,7);
+		switch (StaticNameController.fractionBlack)
+        {
+			case 0:
+				for (int i = 0; i < 8; i++)
+				{
+					SpawnChessman(6, i, 6);
+				}
+				SpawnChessman(7, 0, 7);
+				SpawnChessman(7, 7, 7);
+				SpawnChessman(8, 1, 7);
+				SpawnChessman(8, 6, 7);
+				SpawnChessman(9, 2, 7);
+				SpawnChessman(9, 5, 7);
+				SpawnChessman(10, 3, 7);
+				SpawnChessman(11, 4, 7);
+				break;
+			case 1:
+				for (int i = 0; i < 8; i++)
+				{
+					SpawnChessman(6, i, 6);
+				}
+				SpawnChessman(7, 0, 7);
+				SpawnChessman(7, 7, 7);
+				SpawnChessman(8, 1, 7);
+				SpawnChessman(8, 6, 7);
+				SpawnChessman(9, 2, 7);
+				SpawnChessman(9, 5, 7);
+				SpawnChessman(10, 3, 7);
+				SpawnChessman(11, 4, 7);
+				break;
+			case 2:
+				for (int i = 0; i < 8; i++)
+				{
+					SpawnChessman(6, i, 6);
+				}
+				SpawnChessman(7, 0, 7);
+				SpawnChessman(7, 7, 7);
+				SpawnChessman(8, 1, 7);
+				SpawnChessman(8, 6, 7);
+				SpawnChessman(9, 2, 7);
+				SpawnChessman(9, 5, 7);
+				SpawnChessman(10, 3, 7);
+				SpawnChessman(11, 4, 7);
+				break;
+        }
 	}
 	
 	private Vector3 GetTileCenter(int x, int y)
@@ -363,6 +430,10 @@ public class BoardManager : MonoBehaviour
 		Chessmans[x, y] = go.GetComponent<Chessman>();
 		Chessmans[x, y].SetPosition(x, y);
 		activeChessman.Add(go);
+		if (Chessmans[x,y].isWhite)
+		{
+			go.transform.Rotate(0.0f, 180.0f, 0.0f);
+		}
 	}
 	
 	private void EndGame()
