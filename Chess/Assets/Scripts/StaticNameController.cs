@@ -7,4 +7,5 @@ public class StaticNameController : MonoBehaviour
 {
     public static int fractionWhite = 0;
     public static int fractionBlack = 0;
+    public static string Winner = "Choose fraction and hit play!";
 }

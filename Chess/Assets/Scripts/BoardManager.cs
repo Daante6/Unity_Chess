@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
-	public static BoardManager Instance { set; get; }
+	public Camera camera1 = new Camera();
+	public Transform whiteTransform;
+	public Transform blackTransform;
+
+    public static BoardManager Instance { set; get; }
 	private bool[,] allowedMoves { set; get; }
 
     public Chessman[,] Chessmans { set; get; }
@@ -95,7 +100,6 @@ public class BoardManager : MonoBehaviour
 
 	private void MoveChessman(int x, int y)
     {
-
 		Chessman c1;
 		Chessman c2;
 		Chessman c3;
@@ -228,6 +232,7 @@ public class BoardManager : MonoBehaviour
 			selectedChessman.transform.position = GetTileCenter(x, y);
 			selectedChessman.SetPosition(x, y);
 			Chessmans[x, y] = selectedChessman;
+			changeCamera(isWhiteTurn);
 			isWhiteTurn = !isWhiteTurn;
 
 			//check castle
@@ -270,7 +275,10 @@ public class BoardManager : MonoBehaviour
 		selectedChessman.GetComponent<MeshRenderer>().material = previousMat;
 		BoardHighlights.Instance.HideHighlights();
 		selectedChessman = null;
-    }
+
+		
+
+	}
 
 	private void DrawChessBoard()
 	{
@@ -439,15 +447,39 @@ public class BoardManager : MonoBehaviour
 	private void EndGame()
     {
 		if (isWhiteTurn)
-			Debug.Log("White team wins");
-		else
-			Debug.Log("Black team wins");
+        {
+			StaticNameController.Winner = "White";
+		}
+
+        else
+        {
+			StaticNameController.Winner = "Black";
+		}
+
+		StaticNameController.Winner += " wins!";
 
 		foreach (GameObject go in activeChessman)
 			Destroy(go);
 
 		isWhiteTurn = true;
 		BoardHighlights.Instance.HideHighlights();
-		SpawnAllChessmans();
+		SceneManager.LoadScene("Menu");
+	}
+	public void changeCamera(bool turn)
+    {
+        if (turn)
+        {
+			Camera.main.transform.position = blackTransform.position;
+			Camera.main.transform.rotation = blackTransform.rotation;
+			//camera1.transform.position = blackTransform.position;
+			//camera1.transform.rotation = blackTransform.rotation;
+		}
+        else
+        {
+			Camera.main.transform.position = whiteTransform.position;
+			Camera.main.transform.rotation = whiteTransform.rotation;
+			//camera1.transform.position = whiteTransform.position;
+			//camera1.transform.rotation = whiteTransform.rotation;
+		}
     }
 }
